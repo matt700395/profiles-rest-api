@@ -2,7 +2,7 @@ from django.http import request
 from django.shortcuts import render
 
 # Create your views here.
-from rest_framework import status, viewsets
+from rest_framework import status, viewsets, filters
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -103,3 +103,5 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     queryset = models.UserProfile.objects.all()
     authentication_classes = (TokenAuthentication, )
     permission_classes = (permissions.UpdateWonProfiles, )
+    filter_backends = (filters.SearchFilter, )
+    search_fields = ('name', 'email', )
