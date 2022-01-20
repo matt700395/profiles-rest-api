@@ -5,7 +5,7 @@ from django.shortcuts import render
 from rest_framework import status, viewsets, filters
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.views import ObtainAuthToken
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.settings import api_settings
 from rest_framework.views import APIView
@@ -118,10 +118,7 @@ class UserProfileFeedViewSet(viewsets.ModelViewSet):
     authentication_classes = (TokenAuthentication, )
     serializer_class = serializers.ProfileFeedItemSerializer #왜 이건 class과 위에꺼는 classes지? -> 아... 위에꺼는 튜플이라서 여러개 받을수있음,....
     queryset = models.ProfileFeedItem.objects.all()
-    permission_classes = (
-        permissions.UpdateOwnStatus,
-        IsAuthenticatedOrReadOnly
-    )#65강에서 추가
+    permission_classes = ( permissions.UpdateOwnStatus, IsAuthenticated)
 
     def perform_create(self, serializer):
         """Sets the user profile to the logged in user"""
